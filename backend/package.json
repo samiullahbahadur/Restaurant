@@ -1,0 +1,20 @@
+{
+  "name": "restauratn",
+  "version": "1.0.0",
+  "description": "this System has menu  managemen, Booking system, Availability checks Ordering System, Operations &amp; Payments, Customer Experience   ,    Analytics &amp; Reports,  AI/Automation",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.3"
+  }
+}
