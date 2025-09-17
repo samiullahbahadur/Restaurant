@@ -16,7 +16,9 @@ export default {
         type: Sequelize.INTEGER,
       },
       status: {
-        type: Sequelize.STRING("pending", "preparing", "ready", "served"),
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: ("pending", "preparing", "ready", "served"),
       },
       totalAmount: {
         type: Sequelize.DECIMAL,

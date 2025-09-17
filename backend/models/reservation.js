@@ -1,5 +1,6 @@
 "use strict";
-const { Model } = require("sequelize");
+
+import { Model } from "sequelize";
 module.exports = (sequelize, DataTypes) => {
   class Reservation extends Model {
     /**
@@ -17,7 +18,11 @@ module.exports = (sequelize, DataTypes) => {
       tableId: DataTypes.INTEGER,
       date: DataTypes.DATE,
       timeSlot: DataTypes.STRING,
-      status: DataTypes.STRING("pedding", "confirmed", "cancelled"),
+      status: {
+        type: sequelize.ENUM("pending", "confirmed", "cancelled"),
+        allowNull: false,
+        defaultValue: "pending",
+      },
     },
     {
       sequelize,

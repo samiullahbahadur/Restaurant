@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+import { Model } from "sequelize";
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     /**
@@ -15,7 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER,
       tableId: DataTypes.INTEGER,
-      status: DataTypes.STRING("pending", "preparing", "ready", "served"),
+      status: {
+        type: sequelize.ENUM("pending", "preparing", "ready", "served"),
+        allowNull: false,
+        defaultValue: "pending",
+      },
       totalAmount: DataTypes.DECIMAL,
       specialInstructions: DataTypes.STRING,
     },
