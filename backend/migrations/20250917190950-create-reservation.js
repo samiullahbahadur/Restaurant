@@ -14,8 +14,6 @@ export default {
       },
       tableId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: ("pending", "confirmed", "cancelled"),
       },
       date: {
         type: Sequelize.DATE,
@@ -25,6 +23,8 @@ export default {
       },
       status: {
         type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: ("pending", "confirmed", "cancelled"),
       },
       createdAt: {
         allowNull: false,
