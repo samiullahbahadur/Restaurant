@@ -35,7 +35,7 @@ export const getUserById = async (req, res) => {
 export const signupUser = async (req, res) => {
   try {
     const { firstname, lastname, email, password, role } = req.body;
-    const photo = req.file ? req.filename : null;
+    const photo = req.file ? `/images/${req.file.filename} ` : null;
 
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email } });
