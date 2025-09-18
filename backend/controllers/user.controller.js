@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import db from "../models/index.js";
 import { generateToken } from "../utils/generateToken.js";
 const { User } = db;
@@ -66,6 +67,43 @@ export const signupUser = async (req, res) => {
         role: user.role,
       },
       token,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//----login---
+export const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check Password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: " invalid credentials" });
+    }
+    // save token in DB
+    const token = generateToken(user);
+    user.token = token;
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        role: user.role,
+        photo: user.photo, // your profile image URL
+      },
     });
   } catch (error) {
     console.error(error);
