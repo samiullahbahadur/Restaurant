@@ -6,10 +6,7 @@ import userRoutes from "./routes/user.route.js";
 const app = express();
 app.use(express.json());
 
-app.use(
-  "/images",
-  express.static(path.join(process.cwd(), "backend", "images"))
-);
+app.use("/images", express.static("images"));
 
 app.use("/users", userRoutes);
 
