@@ -10,6 +10,11 @@ import upload from "../middleware/upload.js";
 const router = express.Router();
 
 // router.get('/', authenticate, authorize('admin', 'manager'), getUsers);
+// router.get("/staff-only", authenticate, authorize("waiter", "chef"), (req, res) => {
+//   res.json({ message: "Welcome staff" });
+// });
+
+
 router.get("/", getUsers);
 router.post("/signup", upload.single("photo"), signupUser);
 router.post("/login", loginUser);
