@@ -35,6 +35,7 @@ export const getUserById = async (req, res) => {
 export const signup = async (req, res) => {
   try {
     const { firstname, lastname, email, password, role } = req.body;
+    const photo = req.file ? req.filename : null;
 
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email } });
@@ -49,6 +50,7 @@ export const signup = async (req, res) => {
       email,
       password,
       role: role || "customer", // default to customer if role not provided
+      photo,
     });
     const token = generateToken(user);
     user.token = token;
@@ -63,6 +65,7 @@ export const signup = async (req, res) => {
         email: user.email,
         role: user.role,
       },
+      token,
     });
   } catch (error) {
     console.error(error);
