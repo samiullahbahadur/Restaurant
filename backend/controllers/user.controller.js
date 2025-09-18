@@ -1,5 +1,6 @@
 import db from "../models/index.js";
-const User = db.User;
+const{ User} = db;
+
 
 export const getUsers = async (req, res) => {
   try {
