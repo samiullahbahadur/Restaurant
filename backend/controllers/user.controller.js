@@ -6,7 +6,7 @@ const { User } = db;
 export const getUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: { exclude: ["password"] }, // hide password
+      // attributes: { exclude: ["password"] }, // hide password
     });
     res.status(200).json({
       succss: true,
@@ -76,11 +76,23 @@ export const signupUser = async (req, res) => {
 
 //----login---
 export const loginUser = async (req, res) => {
-  const { email, password } = req.body;
   try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
+
     const user = User.findOne({ where: { email } });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+    // make sure both args exist
+    if (!user.password) {
+      return res.status(500).json({ message: "User password missing in DB" });
     }
 
     // Check Password
@@ -88,6 +100,9 @@ export const loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: " invalid credentials" });
     }
+    console.log("password from body:", password);
+    console.log("user.password from DB:", user.password);
+
     // save token in DB
     const token = generateToken(user);
     user.token = token;
@@ -102,7 +117,7 @@ export const loginUser = async (req, res) => {
         lastname: user.lastname,
         email: user.email,
         role: user.role,
-        photo: user.photo, // your profile image URL
+        photo: user.photo,
       },
     });
   } catch (error) {
