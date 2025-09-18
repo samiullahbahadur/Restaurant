@@ -32,7 +32,7 @@ export const getUserById = async (req, res) => {
 };
 
 // Signup new user
-export const signup = async (req, res) => {
+export const signupUser = async (req, res) => {
   try {
     const { firstname, lastname, email, password, role } = req.body;
     const photo = req.file ? req.filename : null;
