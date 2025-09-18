@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt";
 import db from "../models/index.js";
 import { generateToken } from "../utils/generateToken.js";
+import bcrypt from "bcrypt";
 const { User } = db;
 
 export const getUsers = async (req, res) => {
@@ -76,37 +76,30 @@ export const signupUser = async (req, res) => {
 
 //----login---
 export const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
   try {
-    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
 
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
-    }
-
-    const user = User.findOne({ where: { email } });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // make sure both args exist
     if (!user.password) {
       return res.status(500).json({ message: "User password missing in DB" });
     }
 
-    // Check Password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: " invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
-    console.log("password from body:", password);
-    console.log("user.password from DB:", user.password);
 
-    // save token in DB
     const token = generateToken(user);
+
+    // save token in db if you want
     user.token = token;
     await user.save();
+
     res.status(200).json({
       success: true,
       message: "Login successful",
@@ -120,8 +113,8 @@ export const loginUser = async (req, res) => {
         photo: user.photo,
       },
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
