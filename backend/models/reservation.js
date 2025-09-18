@@ -19,7 +19,7 @@ export default (sequelize, DataTypes) => {
       date: DataTypes.DATE,
       timeSlot: DataTypes.STRING,
       status: {
-        type: sequelize.ENUM("pending", "confirmed", "cancelled"),
+        type: DataTypes.ENUM("pending", "confirmed", "cancelled"),
         allowNull: false,
         defaultValue: "pending",
       },

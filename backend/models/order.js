@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       tableId: DataTypes.INTEGER,
       status: {
-        type: sequelize.ENUM("pending", "preparing", "ready", "served"),
+        type: DataTypes.ENUM("pending", "preparing", "ready", "served"),
         allowNull: false,
         defaultValue: "pending",
       },
