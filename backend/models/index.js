@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import { Sequelize } from "sequelize";
 import process from "process";
 import configFile from "../config/config.js"; // your config.js file
@@ -12,7 +12,7 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = configFile[env];
 
-// create sequelize instance
+// Create sequelize instance
 const sequelize = new Sequelize(
   config.database,
   config.username,
@@ -22,20 +22,22 @@ const sequelize = new Sequelize(
 
 const db = {};
 
-// automatically import all models in this folder
-fs.readdirSync(__dirname)
-  .filter((file) => {
-    return (
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-    );
-  })
-  .forEach((file) => {
-    import(path.join(__dirname, file)).then((module) => {
-      const model = module.default(sequelize, Sequelize.DataTypes);
-      db[model.name] = model;
-    });
-  });
+// Automatically import all models in this folder
+const modelFiles = fs.readdirSync(__dirname).filter((file) => {
+  return (
+    file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+  );
+});
 
+for (const file of modelFiles) {
+  // Convert Windows path to file:// URL for dynamic import
+  const modelUrl = pathToFileURL(path.join(__dirname, file)).href;
+  const module = await import(modelUrl);
+  const model = module.default(sequelize, Sequelize.DataTypes);
+  db[model.name] = model;
+}
+
+// Apply associations if any
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

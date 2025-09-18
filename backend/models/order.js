@@ -1,6 +1,6 @@
 "use strict";
 import { Model } from "sequelize";
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class Order extends Model {
     /**
      * Helper method for defining associations.
