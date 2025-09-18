@@ -1,11 +1,12 @@
 import express from "express";
+import path from "path";
 
 import userRoutes from "./routes/user.route.js";
 
 const app = express();
 app.use(express.json());
 
-app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
+app.use("/images", express.static(path.join(path.resolve(), "images")));
 
 app.use("/users", userRoutes);
 
