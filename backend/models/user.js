@@ -40,6 +40,14 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: "customer",
       },
+      token: {
+        type: DataTypes.STRING,
+        allowNull: true, // store JWT token if needed
+      },
+      photo: {
+        type: DataTypes.STRING, // store URL or filename of the image
+        allowNull: true,
+      },
     },
     {
       sequelize,

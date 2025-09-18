@@ -1,6 +1,6 @@
 import db from "../models/index.js";
-const{ User} = db;
-
+import { generateToken } from "../utils/generateToken.js";
+const { User } = db;
 
 export const getUsers = async (req, res) => {
   try {
@@ -25,6 +25,45 @@ export const getUserById = async (req, res) => {
     });
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Signup new user
+export const signup = async (req, res) => {
+  try {
+    const { firstname, lastname, email, password, role } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+
+    // Create user
+    const user = await User.create({
+      firstname,
+      lastname,
+      email,
+      password,
+      role: role || "customer", // default to customer if role not provided
+    });
+    const token = generateToken(user);
+    user.token = token;
+    await user.save();
+    res.status(201).json({
+      success: true,
+      message: "User created successfully",
+      user: {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
