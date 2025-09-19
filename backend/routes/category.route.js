@@ -1,9 +1,12 @@
-import express from 'express'
-import { getCategory, registerCategory } from '../controllers/category.controller.js';
+import express from "express";
+import {
+  getCategories,
+  registerCategory,
+} from "../controllers/category.controller.js";
 
-const router= express.Router()
+const router = express.Router();
 
-router.post("/", registerCategory)
-router.get("/", getCategory)
+router.post("/", registerCategory);
+router.get("/", getCategories);
 
 export default router;
