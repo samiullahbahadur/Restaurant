@@ -1,3 +1,4 @@
+import category from "../models/category.js";
 import db from "../models/index.js";
 
 const { Category } = db;
@@ -46,6 +47,23 @@ export const getCategory = async (req, res) => {
       return res.status(404).json({ message: "Category not found" });
     res.json({ success: true, category });
   } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const updateCategory = async (req, res) => {
+  try {
+    const categoryId = req.params.id;
+    const category = await Category.findByPk(categoryId);
+    if (!category)
+      return res.status(404).json({ message: "Category not found" });
+
+    const { name, description } = req.body;
+    await category.update({ name, description });
+    res
+      .status(200)
+      .json({ success: true, message: "Category updated Successfully" });
+  } catch (error) {
     res.status(500).json({ success: false, message: err.message });
   }
 };
