@@ -3,13 +3,13 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn("Category", "description", {
+    await queryInterface.addColumn("Categories", "description", {
       type: Sequelize.STRING,
       allowNull: true,
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn("Category","description")
+    await queryInterface.removeColumn("Categories","description")
   },
 };
