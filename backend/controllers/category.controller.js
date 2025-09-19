@@ -4,9 +4,10 @@ const { Category } = db;
 
 export const registerCategory = async (req, res) => {
   try {
-    const name = req.body;
-    const category = Category.create({
+    const { name, description } = req.body;
+    const category = await Category.create({
       name,
+      description,
     });
     res.status(201).json({
       success: true,
