@@ -9,6 +9,7 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      FoodItem.belongsTo(models.Category, { foreignKey: "categoryId" });
     }
   }
   FoodItem.init(
