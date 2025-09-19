@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteCategory,
   getCategories,
   registerCategory,
   updateCategory,
@@ -9,6 +10,7 @@ const router = express.Router();
 
 router.post("/", registerCategory);
 router.get("/", getCategories);
-router.get("/:id", updateCategory);
+router.put("/:id", updateCategory);
+router.delete("/:id", deleteCategory);
 
 export default router;
