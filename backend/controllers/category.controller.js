@@ -67,3 +67,19 @@ export const updateCategory = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+export const deleteCategory = async (req, res) => {
+  try {
+    const categoryId = req.params.id;
+    const category = await Category.findByPk(categoryId);
+    if (!category)
+      return res.status(404).json({ message: "Category not found" });
+
+    await category.destroy();
+    res
+      .status(200)
+      .json({ success: true, message: "category Deleted Sucessfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
