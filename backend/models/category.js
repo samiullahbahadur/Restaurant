@@ -15,7 +15,9 @@ export default (sequelize, DataTypes) => {
   Category.init(
     {
       name: DataTypes.STRING,
+      description: DataTypes.STRING,
     },
+
     {
       sequelize,
       modelName: "Category",
