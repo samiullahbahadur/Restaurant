@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
   class FoodItem extends Model {
@@ -11,15 +11,19 @@ export default (sequelize, DataTypes) => {
       // define association here
     }
   }
-  FoodItem.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    price: DataTypes.DECIMAL,
-    availability: DataTypes.BOOLEAN,
-    categoryId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'FoodItem',
-  });
+  FoodItem.init(
+    {
+      name: DataTypes.STRING,
+      description: DataTypes.STRING,
+      price: DataTypes.DECIMAL,
+      photo: DataTypes.STRING,
+      availability: DataTypes.BOOLEAN,
+      categoryId: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      modelName: "FoodItem",
+    }
+  );
   return FoodItem;
 };
