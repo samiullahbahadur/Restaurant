@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 import { Model } from "sequelize";
-export default  (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class Category extends Model {
     /**
      * Helper method for defining associations.
@@ -9,13 +9,17 @@ export default  (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Category.hasMany(models.FoodItem, { foreignKey: "categoryId" });
     }
   }
-  Category.init({
-    name: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Category',
-  });
+  Category.init(
+    {
+      name: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "Category",
+    }
+  );
   return Category;
 };
